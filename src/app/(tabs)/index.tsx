@@ -4,6 +4,8 @@ import React, {useState} from "react";
 import {StatusBar} from "expo-status-bar";
 import AccountsList from "@/src/components/accounts-list";
 import {useRouter} from "expo-router";
+import database, { accountsCollection } from '../../db';
+import {awaitExpression} from "@babel/types";
 
 export default function TabOneScreen() {
   const router = useRouter();
@@ -11,6 +13,19 @@ export default function TabOneScreen() {
 
   const createAccount = () => {
     console.warn('Account created')
+  }
+
+  const onRead = async () => {
+    const accounts = await accountsCollection.query().fetch();
+    console.log(accounts);
+
+    await database.write(async () => {
+      await accountsCollection.create((account) => {
+        account.name = 'Test'
+        account.cap = 10.5;
+        account.tap = 20.1;
+      })
+    })
   }
 
   return (
@@ -52,6 +67,7 @@ export default function TabOneScreen() {
       </View>
 
       <Button title={'Add account'} onPress={() => createAccount()} />
+      <Button title="Test" onPress={onRead} />
       <StatusBar style="auto" />
     </View>
   );
