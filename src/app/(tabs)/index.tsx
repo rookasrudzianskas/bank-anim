@@ -10,22 +10,23 @@ import {awaitExpression} from "@babel/types";
 export default function TabOneScreen() {
   const router = useRouter();
   const [name, setName] = useState('');
+  const [cap, setCap] = useState('');
+  const [tap, setTap] = useState('');
 
-  const createAccount = () => {
-    console.warn('Account created')
-  }
-
-  const onRead = async () => {
-    const accounts = await accountsCollection.query().fetch();
-    console.log(accounts);
-
+  const createAccount = async () => {
     await database.write(async () => {
       await accountsCollection.create((account) => {
-        account.name = 'Test'
-        account.cap = 10.5;
-        account.tap = 20.1;
-      })
-    })
+        account.name = name;
+        account.cap = Number.parseFloat(cap);
+        account.tap = Number.parseFloat(tap);
+        // account.name = 'Test';
+        // account.cap = 10.5;
+        // account.tap = 20.1;
+      });
+    });
+    setName('');
+    setCap('');
+    setTap('');
   }
 
   return (
@@ -46,6 +47,8 @@ export default function TabOneScreen() {
             <TextInput
               className={'h-10 my-1 text-black flex-1'}
               placeholder={'Enter'}
+              value={cap}
+              onChangeText={setCap}
             />
             <Text className={'text-black'}>Cap</Text>
           </View>
@@ -53,6 +56,8 @@ export default function TabOneScreen() {
             <TextInput
               className={'h-10 flex-1 my-1 text-black'}
               placeholder={'Enter'}
+              value={tap}
+              onChangeText={setTap}
             />
             <Text className={'text-black'}>Cap</Text>
           </View>
@@ -67,7 +72,7 @@ export default function TabOneScreen() {
       </View>
 
       <Button title={'Add account'} onPress={() => createAccount()} />
-      <Button title="Test" onPress={onRead} />
+      <Button title="Test" onPress={createAccount} />
       <StatusBar style="auto" />
     </View>
   );
