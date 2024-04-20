@@ -6,6 +6,8 @@ import AccountsList from "@/src/components/accounts-list";
 import {useRouter} from "expo-router";
 import database, { accountsCollection } from '../../db';
 import {awaitExpression} from "@babel/types";
+import { Link } from 'expo-router';
+import AllocationsList from "@/src/components/AllocationsList";
 
 export default function TabOneScreen() {
   const router = useRouter();
@@ -32,7 +34,6 @@ export default function TabOneScreen() {
   return (
     <View className="m-5">
       <AccountsList />
-
       <View className={'flex flex-row items-center mb-3 mt-1 py-1 justify-between border border-black rounded-md '}>
         <View className={'text-black flex-1 font-semibold'}>
           <TextInput
@@ -73,6 +74,8 @@ export default function TabOneScreen() {
 
       <Button title={'Add account'} onPress={() => createAccount()} />
       <Button title="Test" onPress={() => router.push('/new-allocation')} />
+
+      <AllocationsList />
       <StatusBar style="auto" />
     </View>
   );
