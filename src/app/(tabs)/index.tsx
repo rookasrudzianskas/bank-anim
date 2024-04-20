@@ -72,7 +72,7 @@ export default function TabOneScreen() {
       </View>
 
       <Button title={'Add account'} onPress={() => createAccount()} />
-      <Button title="Test" onPress={createAccount} />
+      <Button title="Test" onPress={() => router.push('/new-allocation')} />
       <StatusBar style="auto" />
     </View>
   );
