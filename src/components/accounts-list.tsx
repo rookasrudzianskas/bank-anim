@@ -1,28 +1,19 @@
 //@ts-nocheck
-import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet, FlatList} from 'react-native';
+import React from 'react';
+import {FlatList} from 'react-native';
 import AccountListItem from "@/src/components/account-list-item";
-import {awaitExpression} from "@babel/types";
 import {accountsCollection} from "@/src/db";
 import Account from "@/src/model/Account";
+import { withObservables } from '@nozbe/watermelondb/react';
 
 export const DATA = [1, 2, 3, 4, 5, 6]
 
-const AccountsLists = () => {
-  const [accounts, setAccounts] = useState<Account[]>([]);
-  useEffect(() => {
-    const fetchAccounts = async () => {
-      const accounts = await accountsCollection.query().fetch();
-      console.log(accounts)
-      setAccounts(accounts)
-    }
-    fetchAccounts();
-  }, [])
 
+function AccountsList({ accounts }: { accounts: Account[] }) {
   return (
     <>
       <FlatList
-        data={accounts.slice(0, 5)}
+        data={accounts.slice(0, 7)}
         renderItem={(item) => {
           return (
             <AccountListItem account={item} />
@@ -38,4 +29,8 @@ const AccountsLists = () => {
   );
 };
 
-export default AccountsLists;
+const enhance = withObservables([], () => ({
+  accounts: accountsCollection.query(),
+}));
+
+export default enhance(AccountsList);

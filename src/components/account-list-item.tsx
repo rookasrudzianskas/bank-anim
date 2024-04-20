@@ -7,20 +7,20 @@ type AccountListItem = {
   account: Account;
 };
 
-const AccountListItem = ({account}: AccountListItem) => {
+const AccountListItem = ({account: {item}}: AccountListItem) => {
   return (
     <TouchableOpacity activeOpacity={0.7} className={'flex flex-row my-1 items-center border rounded-md border-black' +
       ' border-1' +
       ' justify-between px-7 py-3' +
       ' text-black'}>
-      <Text className={'text-black text-lg font-semibold'}>{account?.name}</Text>
+      <Text className={'text-black text-lg font-semibold'}>{item.name}</Text>
       <View className={'flex flex-row items-center gap-6'}>
         <View className={'flex flex-col items-center justify-center'}>
-          <Text className={'text-black text-lg font-semibold'}>{account?.cap}%</Text>
+          <Text className={'text-black text-lg font-semibold'}>{item.cap}%</Text>
           <Text className={'text-black'}>Cap</Text>
         </View>
         <View className={'flex flex-col items-center justify-center'}>
-          <Text className={'text-black text-lg font-semibold'}>{account?.tap}%</Text>
+          <Text className={'text-black text-lg font-semibold'}>{item.tap}%</Text>
           <Text className={'text-black'}>Cap</Text>
         </View>
         <View className={'flex flex-col items-center justify-center'}>
